@@ -1,0 +1,43 @@
+=string_enumerator
+
+You provide a list of replacements ("replace [color] with red and blue"):
+
+    require 'string_enumerator'
+    class Colors < StringEnumerator
+      # Interface to StringEnumerator
+      def replacements
+        { :color => [ 'red', 'blue' ] }
+      end
+    end
+
+Then you call the <tt>#enumerate</tt> method on a <tt>String</tt>:
+
+    ?> u = Colors.new
+    => #<Colors...>
+    ?> u.enumerate 'http://example.com/[color]'
+    => [ 'http://example.com/blue', 'http://example.com/red' ]
+
+The start and end of placeholders are marked with "[" and "]" (although you can override this if you want, see the tests.)
+
+==Multiple placeholders per string
+
+You can define as many replacements as you want, which will exponentially increase the final number of enumerations
+
+    require 'string_enumerator'
+    class ColorsAndTastes < StringEnumerator
+      def replacements
+        {
+          :color => [ 'red', 'blue' ],
+          :taste => [ 'savory', 'sweet' ]
+        }
+      end
+    end
+
+Then you'll get
+
+    ?> u2 = ColorsAndTastes.new
+    => #<ColorsAndTastes...>
+    ?> u2.enumerate 'http://example.com/[color]/[taste]'
+    => [ 'http://example.com/blue/savory', 'http://example.com/blue/sweet', 'http://example.com/red/savory', 'http://example.com/red/sweet' ]
+
+Copyright 2011 Seamus Abshere
