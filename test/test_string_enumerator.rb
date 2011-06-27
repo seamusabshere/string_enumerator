@@ -2,21 +2,14 @@ require 'helper'
 require 'brighter_planet_metadata'
 require 'active_support/core_ext'
 
-class UrlFiller < StringEnumerator
-  # this has to return a Hash of placeholder => replacement pairs
-  def replacements
-    {
+class TestStringEnumerator < Test::Unit::TestCase
+  def setup
+    @f = StringEnumerator.new({
       :certified_emitter_underscore_plural  => BrighterPlanet.metadata.certified_emitters.map { |emitter| emitter.underscore.pluralize },
       :emission_estimate_service_color      => %w{red blue},
       :emitter_underscore_plural            => BrighterPlanet.metadata.emitters.map { |emitter| emitter.underscore.pluralize },
       :resource_underscore                  => BrighterPlanet.metadata.resources.map { |resource| resource.underscore }
-    }
-  end
-end
-
-class TestStringEnumerator < Test::Unit::TestCase
-  def setup
-    @f = UrlFiller.new
+    })
   end
   
   def test_001_enumerates_emitters
@@ -49,5 +42,11 @@ class TestStringEnumerator < Test::Unit::TestCase
   def test_004_edge_case_empty_placeholder
     enumerated = @f.enumerate("http://carbon.brighterplanet.com/[]/options.html")
     assert_equal ["http://carbon.brighterplanet.com/[]/options.html"], enumerated
+  end
+  
+  def test_005_different_start_mark
+    @f.start_mark = 'BOOYAH'
+    enumerated = @f.enumerate("http://carbon.brighterplanet.com/BOOYAHemitter_underscore_plural]/options.html")
+    assert enumerated.include?("http://carbon.brighterplanet.com/flights/options.html")
   end
 end
