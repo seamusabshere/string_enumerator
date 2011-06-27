@@ -8,7 +8,7 @@ Gem::Specification.new do |s|
   s.authors     = ["Seamus Abshere"]
   s.email       = ["seamus@abshere.net"]
   s.homepage    = "https://github.com/seamusabshere/string_enumerator"
-  s.summary     = %q{If you have a string like "[color] balloon" and 3 colors, get back [ "Red balloon", "Green balloon", "Blue baloon"].}
+  s.summary     = %q{Given a string containing placeholders (like [color]), enumerate all of the possible strings resulting from filling those placeholders with replacements (like red, blue).}
   s.description = %q{Fill strings that have placeholders like [color], possibly returning multiple results.}
 
   s.rubyforge_project = "string_enumerator"
