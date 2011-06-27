@@ -18,7 +18,7 @@ class StringEnumerator
   # Your class should override this
   #
   # For example:
-  #     class ColorsAndTastes < StringEnumerator
+  #     class ColorAndTasteEnumerator < StringEnumerator
   #       def replacements
   #         {
   #           :color => [ 'red', 'blue' ],
